@@ -59,7 +59,7 @@ async function getRole() {
 // }
 
 // manager
-async function getOfficeNumber() {
+async function getOfficeNumber(){
     const managerInput = await
     inquirer.prompt([
         {
@@ -83,7 +83,7 @@ async function getOfficeNumber() {
             message: "What is this employee's office number?",
         }
     ]).then(
-        const newManager = new Manager (managerInput.name, managerInput.id, managerInput.email, managerInput.officeNumber)
+        const newManager = new manager (managerInput.name, managerInput.id, managerInput.email, managerInput.officeNumber)
         return newManager;
     ) getRole();
     }

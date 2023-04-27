@@ -2,105 +2,70 @@ const Employee = require("./lib/Employee.js");
 const Manager = require("./lib/Manager.js");
 const Engineer = require("./lib/Engineer.js");
 const Intern = require("./lib/Intern.js");
-// const generateHtml =require("./util/generateHtml");
-// const generateCSS =require("./util/generateCSS");
 const inquirer = require("inquirer");
 const fs = require("fs");
-const util = require("util");
-const writeFile = util.promisify(fs.writeFile);
 const employees = [];
 
-
-
 //Employee type selection prompts
-function askQuestion() {
+async function getRole() {
+    const employeeSelection = await
     inquirer
         .prompt([
             {
                 type: "list",
-                name: "question",
+                name: "employee",
                 message: "What employee position are we adding?",
-                choices: ["Engineer", "Intern", "Manager", "Quit"],
+                choices: ["Engineer", "Intern", "Manager", "View Team", "Quit"],
             }
-        ]).then(answers => {
-            switch (answers.question) {
+        ])
+        // .then(employeeInput => {
+            switch (employeeSelection.employee){
                 case "Engineer":
-                    console.log("add an engineer!")
-                    employeeName();
+                    console.log("add an engineer!");
                     getGitHub();
                     break;
 
-
                 case "Intern":
-                    console.log("add an intern!")
-                    employeeName();
+                    console.log("add an intern!");
                     getSchool();
                     break;
 
-
                 case "Manager":
-                    console.log("add a manager!")
-                    employeeName();
-                    officeNumber();
+                    console.log("add a manager!");
+                    getOfficeNumber();
+                    break;
+
+                case "View Team":
+                    console.log(employees);
+                    const html = generateHtml(employees);
+                    fs.writeFile("./output/index.html",html,error => {
+                        if(error){
+                            console.log(error);
+                        }
+                    })
+                    getRole();
                     break;
 
                 default:
                     console.log("Seen you soon!")
                     break;
-
             }
-        }).then((answer) => {
-            if (answer.addEmployee) {
-              promptEmployeeType();
-            } else {
-              fs.writeFile("index.html", generateHtml(employees), (err, data) => {
-                if (err) {
-                  throw err;
-                }
-                console.log("complete!");
-              });
-            }
-          })
-          .catch((error) => {
-            console.log("Error:", error);
-          });
-}
-
-
-// adding a new employee
-function employeeName() {
-    inquirer.prompt({
-        name: "name",
-        message: "What is the employee's name?",
-        type: "input"
-    }).then(({ name }) => {
-        console.log(name);
-        const newName = new Employee(name);
-        employees.push(newName)
-        console.log(employees);
-        askQuestion();
-    })
-}
-
-// appending details to employees
-function employeeDetails() {
-    if (employees.length < 1) {
-        console.log("add an employee before proceeding")
-        return askQuestion()
-    }
-    const inquirerEmployees = employees.map(Employee => {
-        return {
-            name: employees.name,
-            value: employees
         }
-    })
-    console.log(inquirerEmployees)
+        // )
+        .catch((error) => {
+            console.log("Error:", error);
+            break;
+          });
+// }
+
+// manager
+async function getOfficeNumber() {
+    const managerInput = await
     inquirer.prompt([
         {
-            type: "list",
-            choices: inquirerEmployees,
-            message: "which Employee?",
-            name: "employeeChoice"
+            name: "name",
+            message: "What is the employee's name?",
+            type: "input"
         },
         {
             type: "input",
@@ -112,51 +77,117 @@ function employeeDetails() {
             message: "add the employee's email",
             name: "email",
         },
-    ]).then(employeeDetailsAnswers => {
-        employeeDetailsAnswers.employeeChoice.employeeDetails(employeeDetailsAnswers.id, employeeDetailsAnswers.email)
-        console.log(JSON.stringify(employees, null, 2))
-        askQuestion();
-    })
-}
-
-function getSchool() {
-    inquirer.prompt([
-        {
-            type: "input",
-            name: "school",
-            message: "What is this intern's school?",
-        }
-    ]).then(employeeDetailsAnswers => {
-        employeeDetailsAnswers.employeeChoice.employeeDetails(employeeDetailsAnswers.id, employeeDetailsAnswers.email, employeeDetailsAnswers.school)
-        console.log(JSON.stringify(employees, null, 2))
-        askQuestion();
-    })
-}
-
-function officeNumber() {
-    inquirer.prompt([
         {
             type: "input",
             name: "officeNumber",
             message: "What is this employee's office number?",
         }
-    ]).then(employeeDetailsAnswers => {
-        employeeDetailsAnswers.employeeChoice.employeeDetails(employeeDetailsAnswers.id, employeeDetailsAnswers.email, employeeDetailsAnswers.officeNumber)
-        console.log(JSON.stringify(employees, null, 2))
-        askQuestion();
-    })
-}
+    ]).then(
+        const newManager = new Manager (managerInput.name, managerInput.id, managerInput.email, managerInput.officeNumber)
+        return newManager;
+    ) getRole();
+    }
 
-function getGitHub() {
+// appending details to employees
+// intern
+async function getSchool() {
+    const internInput = await
     inquirer.prompt([
+        {
+            name: "name",
+            message: "What is the employee's name?",
+            type: "input"
+        },
+        {
+            type: "input",
+            message: "add the employee ID number",
+            name: "id",
+        },
+        {
+            type: "input",
+            message: "add the employee's email",
+            name: "email",
+        },
+        {
+            type: "input",
+            name: "school",
+            message: "What is this intern's school?",
+        }
+    ]).then(
+        const newIntern = new intern (internInput.name, internInput.id, internInput.email, internInput.school)
+        return newIntern;
+    ) getRole();
+    }
+
+
+// engineer
+async function getGitHub() {
+    const engineerInput = await
+    inquirer.prompt([
+        {
+            name: "name",
+            message: "What is the employee's name?",
+            type: "input"
+        },
+        {
+            type: "input",
+            message: "add the employee ID number",
+            name: "id",
+        },
+        {
+            type: "input",
+            message: "add the employee's email",
+            name: "email",
+        },
         {
             type: "input",
             name: "gitHub",
             message: "What is this employee's GitHub?",
         }
-    ]).then(employeeDetailsAnswers => {
-        employeeDetailsAnswers.employeeChoice.employeeDetails(employeeDetailsAnswers.id, employeeDetailsAnswers.email, employeeDetailsAnswers.gitHub)
-        console.log(JSON.stringify(employees, null, 2))
-        askQuestion();
-    })
-}
+    ]).then(
+        const newEngineer = new engineer (engineerInput.name, engineerInput.id, engineerInput.email, engineerInput.gitHub)
+        return newEngineer;
+    ) 
+    getRole();
+    }
+
+// async function employeeDetails() {
+//     if (employees.length < 1) {
+//         console.log("add an employee before proceeding")
+//         return getRole()
+//     }
+//     const inquirerEmployees = employees.map(Employee => {
+//         return {
+//             name: employees.name,
+//             value: employees
+//         }
+//     })
+//     console.log(inquirerEmployees)
+//     inquirer.prompt([
+//         {
+//             type: "list",
+//             choices: inquirerEmployees,
+//             message: "which Employee?",
+//             name: "employeeChoice"
+//         },
+//         {
+//             name: "name",
+//             message: "What is the employee's name?",
+//             type: "input"
+//         },
+//         {
+//             type: "input",
+//             message: "add the employee ID number",
+//             name: "id",
+//         },
+//         {
+//             type: "input",
+//             message: "add the employee's email",
+//             name: "email",
+//         },
+//     ]).then(employeeDetailsAnswers => {
+//         employeeDetailsAnswers.employeeChoice.employeeDetails(employeeDetailsAnswers.id, employeeDetailsAnswers.email)
+//         console.log(JSON.stringify(employees, null, 2))
+//         getRole();
+//     })
+// }

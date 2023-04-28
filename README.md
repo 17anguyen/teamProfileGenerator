@@ -1,12 +1,22 @@
 # 10 Object-Oriented Programming: Team Profile Generator
+## Description
+This application was written to use JS tests files to create writing files. 
+When using this application in the terminal, follow the prompts and create a HTML file with cards of a team of employees.
 
-## Your Task
+```
+## Usage video
+https://drive.google.com/file/d/17Tu6xhGJ-esk9APE8QUOIKrIy7p-obN7/view
+https://app.screencastify.com/manage/videos/cCTxKX3sS2BzzFNyeuDc
 
-Your task is to build a Node.js command-line application that takes in information about employees on a software engineering team, then generates an HTML webpage that displays summaries for each person. Testing is key to making code maintainable, so you’ll also write a unit test for every part of your code and ensure that it passes each test.
+## Sources 
 
-Because this application won’t be deployed, you’ll need to provide a link to a walkthrough video that demonstrates its functionality and all of the tests passing. You’ll need to submit a link to the video AND add it to the readme of your project.
 
-> **Note**: There is no starter code for this assignment.
+## Installation
+open terminal
+to install please log in terminal "npm init" then "npm i inquirer@8.2.4
+to run program log in terminal "node index.js"
+
+
 
 ## User Story
 
